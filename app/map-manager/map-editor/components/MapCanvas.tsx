@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Stage, Layer, Rect, Circle, Line, Text, Group } from "react-konva";
 import Konva from "konva";
+import { useTheme } from "next-themes";
 import {
   Minus,
   Plus,
@@ -72,9 +73,20 @@ interface MapCanvasProps {
 }
 
 export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selectedTool }: MapCanvasProps) {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const layerVisibility = useSelector((state: RootState) => state.mapEditor.layerVisibility);
   const properties = useSelector((state: RootState) => state.mapEditor.properties);
   const { gridSize, snapToGrid, showGrid } = properties;
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  const isDark = mounted && theme === "dark";
+  const canvasBackground = isDark ? "#1a1a1a" : "#ffffff";
+  const gridColor = isDark ? "#374151" : "#d1d5db";
+  const textColor = isDark ? "#e5e7eb" : "#374151";
   
   const [zoom, setZoom] = useState(100);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -564,7 +576,7 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
                 fontSize={14}
                 fontFamily="Arial"
                 fontWeight="bold"
-                fill="#374151"
+                fill={textColor}
                 width={element.width! - 20}
                 align="center"
               />
@@ -631,7 +643,7 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
                 fontSize={13}
                 fontFamily="Arial"
                 fontWeight="500"
-                fill="#374151"
+                fill={textColor}
                 width={roomWidth - 20}
                 align="center"
               />
@@ -691,7 +703,7 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
                 fontSize={13}
                 fontFamily="Arial"
                 fontWeight="500"
-                fill="#374151"
+                fill={textColor}
                 width={entranceWidth - 20}
                 align="center"
               />
@@ -751,7 +763,7 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
                 fontSize={13}
                 fontFamily="Arial"
                 fontWeight="500"
-                fill="#374151"
+                fill={textColor}
                 width={elevatorWidth - 20}
                 align="center"
               />
@@ -822,9 +834,9 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
         <Line
           key={`v-${i}`}
           points={[i * gridSize, 0, i * gridSize, stageSize.height]}
-          stroke="#d1d5db"
+          stroke={gridColor}
           strokeWidth={1}
-          opacity={0.8}
+          opacity={isDark ? 0.4 : 0.8}
           listening={false}
         />
       );
@@ -835,9 +847,9 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
         <Line
           key={`h-${i}`}
           points={[0, i * gridSize, stageSize.width, i * gridSize]}
-          stroke="#d1d5db"
+          stroke={gridColor}
           strokeWidth={1}
-          opacity={0.8}
+          opacity={isDark ? 0.4 : 0.8}
           listening={false}
         />
       );
@@ -962,7 +974,7 @@ export function MapCanvas({ floorPlanId, onPOIClick, onRestrictedZoneDraw, selec
               y={0}
               width={stageSize.width}
               height={stageSize.height}
-              fill="#ffffff"
+              fill={canvasBackground}
               listening={false}
             />
             {drawGrid()}
