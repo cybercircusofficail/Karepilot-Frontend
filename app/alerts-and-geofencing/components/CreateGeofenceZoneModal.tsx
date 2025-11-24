@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CustomInput } from "@/components/common/CustomInput";
 import { CustomSelect } from "@/components/common/CustomSelect";
 import { ToggleSwitch } from "@/components/common/ToggleSwitch";
@@ -15,12 +15,14 @@ interface CreateGeofenceZoneModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: CreateGeofenceZoneData) => void;
+  isLoading?: boolean;
 }
 
 export function CreateGeofenceZoneModal({
   isOpen,
   onClose,
   onSubmit,
+  isLoading = false,
 }: CreateGeofenceZoneModalProps) {
   const [formData, setFormData] = useState<CreateGeofenceZoneData>({
     name: "",
@@ -36,9 +38,25 @@ export function CreateGeofenceZoneModal({
 
   const zoneTypes = ["Monitoring", "Restricted", "Alert", "Notification"];
 
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({
+        name: "",
+        type: "Monitoring",
+        description: "",
+        notifications: {
+          email: true,
+          sms: false,
+          push: false,
+          sound: false,
+        },
+      });
+    }
+  }, [isOpen]);
+
   const handleSubmit = () => {
+    if (isLoading) return;
     onSubmit(formData);
-    onClose();
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -185,10 +203,11 @@ export function CreateGeofenceZoneModal({
           </Button>
           <Button
             onClick={handleSubmit}
-            className="w-full sm:w-auto px-4 sm:px-5 flex gap-2 justify-center py-2.5 text-sm cursor-pointer font-medium text-white bg-[#3D8C6C] rounded-lg transition-colors hover:bg-[#3D8C6C]/90"
+            disabled={isLoading}
+            className="w-full sm:w-auto px-4 sm:px-5 flex gap-2 justify-center py-2.5 text-sm cursor-pointer font-medium text-white bg-[#3D8C6C] rounded-lg transition-colors hover:bg-[#3D8C6C]/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <MapPin className="w-4 h-4" />
-            Create Zone
+            {isLoading ? "Creating..." : "Create Zone"}
           </Button>
         </div>
       </div>
