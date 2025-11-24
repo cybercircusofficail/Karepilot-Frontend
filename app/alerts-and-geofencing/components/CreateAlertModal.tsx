@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CustomInput } from "@/components/common/CustomInput";
 import { CustomSelect } from "@/components/common/CustomSelect";
 import { Button } from "@/components/ui/button";
@@ -16,12 +16,14 @@ interface CreateAlertModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: CreateAlertData) => void;
+  isLoading?: boolean;
 }
 
 export function CreateAlertModal({
   isOpen,
   onClose,
   onSubmit,
+  isLoading = false,
 }: CreateAlertModalProps) {
   const [formData, setFormData] = useState<CreateAlertData>({
     name: "",
@@ -36,9 +38,26 @@ export function CreateAlertModal({
     room: "",
   });
 
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({
+        name: "",
+        description: "",
+        alertType: "",
+        priority: "High",
+        email: "",
+        phone: "",
+        department: "",
+        location: "",
+        floor: "",
+        room: "",
+      });
+    }
+  }, [isOpen]);
+
   const handleSubmit = () => {
+    if (isLoading) return;
     onSubmit(formData);
-    onClose();
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -93,8 +112,11 @@ export function CreateAlertModal({
                 onChange={(value) =>
                   setFormData({ ...formData, alertType: value })
                 }
-                options={alertTypes.map((type) => type.label)}
-                placeholder="e.g. ICU Restricted Zone"
+                options={alertTypes.map((type) => ({
+                  name: type.label,
+                  value: type.value,
+                }))}
+                placeholder="Select alert type"
                 label="Alert Type"
                 required
               />
@@ -185,10 +207,11 @@ export function CreateAlertModal({
           </Button>
           <Button
             onClick={handleSubmit}
-            className="w-full sm:w-auto px-4 sm:px-5 flex gap-2 justify-center py-2.5 text-sm cursor-pointer font-medium text-white bg-[#3D8C6C] rounded-lg transition-colors hover:bg-[#3D8C6C]/90"
+            disabled={isLoading}
+            className="w-full sm:w-auto px-4 sm:px-5 flex gap-2 justify-center py-2.5 text-sm cursor-pointer font-medium text-white bg-[#3D8C6C] rounded-lg transition-colors hover:bg-[#3D8C6C]/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Bell className="w-4 h-4" />
-            Create Alert
+            {isLoading ? "Creating..." : "Create Alert"}
           </Button>
         </div>
       </div>

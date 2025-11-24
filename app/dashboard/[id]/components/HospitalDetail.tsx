@@ -47,7 +47,6 @@ export default function HospitalDetail() {
   const organization = organizationData?.data?.organization;
   const dashboard = dashboardData?.data;
 
-  // Transform dashboard stats to StatItem format
   const hospitalStats = useMemo(() => {
     if (!dashboard?.stats) return [];
 
@@ -87,9 +86,8 @@ export default function HospitalDetail() {
         icon: navigationRequestsIcon,
       },
     ];
-  }, [dashboard?.stats]);
+  }, [dashboard]);
 
-  // Transform recent activities
   const recentActivities = useMemo(() => {
     if (!dashboard?.recentActivities) return [];
 
@@ -102,7 +100,6 @@ export default function HospitalDetail() {
     }));
   }, [dashboard?.recentActivities]);
 
-  // Get organization location string
   const organizationLocation = useMemo(() => {
     if (!organization) return "";
     const parts = [organization.city, organization.country].filter(Boolean);

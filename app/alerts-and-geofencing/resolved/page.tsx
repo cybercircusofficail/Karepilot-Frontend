@@ -1,5 +1,29 @@
-import { AlertsPageContent } from "../components";
+import { Suspense } from "react";
+import { DashboardLayout } from "@/components/DashboardLayout";
+import { AlertsPageContent, AlertStatsCardsSkeleton } from "../components";
+
+function ResolvedAlertsPageContent() {
+  return <AlertsPageContent filterStatus="resolved" />;
+}
 
 export default function ResolvedAlertsPage() {
-  return <AlertsPageContent filterStatus="resolved" />;
+  return (
+    <Suspense
+      fallback={
+        <DashboardLayout
+          showBackButton={true}
+          backLink="/users-and-roles"
+          pageTitle="Alerts & Geofencing"
+          organizationName="Central Medical Hospital"
+          showOrganizationHeader={true}
+        >
+          <div className="space-y-6">
+            <AlertStatsCardsSkeleton />
+          </div>
+        </DashboardLayout>
+      }
+    >
+      <ResolvedAlertsPageContent />
+    </Suspense>
+  );
 }

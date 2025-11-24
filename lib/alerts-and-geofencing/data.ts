@@ -125,11 +125,12 @@ export const categoryFilters: FilterOption[] = [
 ];
 
 export const alertTypes: FilterOption[] = [
-  { label: "SOS Notifications", value: "sos" },
-  { label: "Fire Alerts", value: "fire" },
-  { label: "Fall Detection", value: "fall" },
-  { label: "Geofence Breach", value: "geofence" },
-  { label: "Low Battery", value: "low-battery" }
+  { label: "Unauthorized Entry", value: "unauthorized-entry" },
+  { label: "Low Battery", value: "low-battery" },
+  { label: "Emergency Exit", value: "emergency-exit" },
+  { label: "System Alert", value: "system-alert" },
+  { label: "Geofence Trigger", value: "geofence-trigger" },
+  { label: "Equipment Fault", value: "equipment-fault" }
 ];
 
 export const priorityLevels: FilterOption[] = [

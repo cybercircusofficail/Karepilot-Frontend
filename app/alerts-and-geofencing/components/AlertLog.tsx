@@ -9,9 +9,11 @@ interface AlertLogProps {
   alerts: Alert[];
   tabs: FilterOption[];
   currentFilter?: string;
+  onAcknowledge?: (alertId: string) => void;
+  onResolve?: (alertId: string) => void;
 }
 
-export function AlertLog({ alerts, tabs, }: AlertLogProps) {
+export function AlertLog({ alerts, tabs, onAcknowledge, onResolve }: AlertLogProps) {
 
   const getSeverityStyles = (severity: string) => {
     switch (severity) {
@@ -111,6 +113,13 @@ export function AlertLog({ alerts, tabs, }: AlertLogProps) {
                   <Button
                     variant="outline"
                     size="sm"
+                    onClick={() => {
+                      if (alert.status === "Active" && onAcknowledge) {
+                        onAcknowledge(alert.id);
+                      } else if (alert.status === "Acknowledged" && onResolve) {
+                        onResolve(alert.id);
+                      }
+                    }}
                     className="flex-1 sm:flex-none px-2 sm:px-3 py-1.5 text-xs font-medium text-muted-foreground bg-transparent border border-border rounded-lg hover:bg-accent transition-colors cursor-pointer"
                   >
                     {getActionButtonText(alert.status)}
