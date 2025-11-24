@@ -37,11 +37,14 @@ export default function AssetTrackingPage() {
     const buildings = buildingsData?.data?.buildings || [];
     return [
       { label: "All Buildings", value: "all", checked: true },
-      ...buildings.map((building) => ({
-        label: building.name,
-        value: building.id || "",
-        checked: false,
-      })),
+      ...buildings.map((building) => {
+        const buildingId = building.id || (building as any)._id || "";
+        return {
+          label: building.name,
+          value: buildingId,
+          checked: false,
+        };
+      }),
     ];
   }, [buildingsData]);
 
@@ -60,8 +63,17 @@ export default function AssetTrackingPage() {
       query.type = selectedType as AssetType;
     }
 
-    if (selectedBuilding !== "all" && /^[0-9a-fA-F]{24}$/.test(selectedBuilding)) {
-      query.buildingId = selectedBuilding;
+    if (selectedBuilding !== "all") {
+      const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(selectedBuilding);
+      if (isValidObjectId) {
+        query.buildingId = selectedBuilding;
+      } else {
+        console.warn("Invalid building ID format:", selectedBuilding);
+      }
+    }
+
+    if (selectedBuilding !== "all") {
+      console.log("Asset Query with building filter:", query);
     }
 
     return query;

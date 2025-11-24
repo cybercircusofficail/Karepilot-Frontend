@@ -31,9 +31,7 @@ export function AssetMapWithDropdown({
     }
   };
 
-  const filteredAssets = selectedBuilding === "all" 
-    ? assets 
-    : assets.filter(asset => asset.building?._id === selectedBuilding);
+  const filteredAssets = assets;
 
   const getAssetPosition = (index: number, total: number) => {
     const positions = [
