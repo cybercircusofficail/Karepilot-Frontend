@@ -36,9 +36,22 @@ export function LineChartComponent({
   data,
   lines,
   height = 320,
-  yAxisFormatter = (value) => `${value}M`,
-  yAxisDomain = [0, 30],
+  yAxisFormatter = (value) => `${value}`,
+  yAxisDomain,
 }: LineChartComponentProps) {
+  if (!data || data.length === 0) {
+    return (
+      <div style={{ height: `${height}px` }} className="flex items-center justify-center text-muted-foreground">
+        No data available
+      </div>
+    );
+  }
+
+  const maxValue = Math.max(
+    ...data.flatMap((d) => lines.map((line) => Number(d[line.dataKey]) || 0))
+  );
+  const defaultDomain: [number, number] = yAxisDomain || [0, Math.max(maxValue * 1.2, 10)];
+
   return (
     <div style={{ height: `${height}px` }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -54,7 +67,7 @@ export function LineChartComponent({
           <YAxis
             stroke="hsl(var(--muted-foreground))"
             fontSize={12}
-            domain={yAxisDomain}
+            domain={defaultDomain}
             tickFormatter={yAxisFormatter}
             tickLine={false}
             axisLine={false}

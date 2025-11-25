@@ -12,6 +12,7 @@ interface SystemHealthComponentProps {
   subtitle: string;
   data: SystemHealthItem[];
   className?: string;
+  isLoading?: boolean;
 }
 
 export function SystemHealthComponent({
@@ -19,16 +20,37 @@ export function SystemHealthComponent({
   subtitle,
   data,
   className = "",
+  isLoading = false,
 }: SystemHealthComponentProps) {
+  if (isLoading) {
+    return (
+      <div className={`bg-background border border-border rounded-xl p-6 ${className}`}>
+        <div className="mb-6">
+          <div className="h-6 bg-muted rounded w-32 mb-2 animate-pulse"></div>
+          <div className="h-4 bg-muted rounded w-48 animate-pulse"></div>
+        </div>
+        <div className="space-y-5 w-full">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="animate-pulse">
+              <div className="h-4 bg-muted rounded w-24 mb-2"></div>
+              <div className="h-2 bg-muted rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`bg-background border border-border rounded-xl p-6 ${className}`}>
+    <div className={`bg-background border border-border rounded-xl p-6 w-full max-w-full overflow-hidden ${className}`}>
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-1">{title}</h3>
         <p className="text-sm text-muted-foreground">{subtitle}</p>
       </div>
 
       <div className="space-y-5 w-full">
-        {data.map((system, index) => (
+        {data.length > 0 ? (
+          data.map((system, index) => (
           <div key={index}>
             <div className="flex items-center justify-between mb-2">
               <div>
@@ -65,7 +87,10 @@ export function SystemHealthComponent({
               />
             </div>
           </div>
-        ))}
+          ))
+        ) : (
+          <div className="text-sm text-muted-foreground">No system health data available</div>
+        )}
       </div>
     </div>
   );
