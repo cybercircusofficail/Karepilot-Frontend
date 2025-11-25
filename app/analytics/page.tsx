@@ -1,32 +1,91 @@
 "use client";
 
+import { useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import StatsGrid from "@/components/common/StatsGrid";
+import StatsGridSkeleton from "@/components/common/StatsGridSkeleton";
 import { DateRangePicker } from "./components/DateRangePicker";
-import { analyticsStats, navigationTabs } from "@/lib/analytics/data";
+import { navigationTabs } from "@/lib/analytics/data";
 import NavigationTabs from "@/components/common/NavigationTabs";
 import { UserGrowthChart } from "./components/UserGrowthChart";
 import FeatureUsageChart from "./components/FeatureUsageChart";
 import { QuickInsights } from "./components/insightCards";
 import { AnalyticsHeader } from "./components/AnalyticsHeader";
+import { useGetAnalyticsOverviewQuery } from "@/lib/api/analyticsApi";
+import { AnalyticsQuery } from "@/lib/types/analytics/analytics";
+import { DashboardIcon, activeIcon, hospitalsIcon } from "@/icons/Assets";
+import toast from "react-hot-toast";
 
-export default function page() {
+export default function AnalyticsPage() {
+  const [dateRange, setDateRange] = useState<AnalyticsQuery["dateRange"]>("Last 7 days");
+  const [queryParams, setQueryParams] = useState<AnalyticsQuery>({
+    dateRange: "Last 7 days",
+  });
+
+  const {
+    data: analyticsData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAnalyticsOverviewQuery(queryParams);
+
   const handleDateRangeChange = (range: string) => {
-    console.log("Date range changed to:", range);
+    setDateRange(range as AnalyticsQuery["dateRange"]);
+    setQueryParams({
+      ...queryParams,
+      dateRange: range as AnalyticsQuery["dateRange"],
+    });
   };
 
   const handleRefresh = async () => {
-    console.log("Refreshing data...");
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      await refetch();
+      toast.success("Data refreshed successfully");
+    } catch (error) {
+      toast.error("Failed to refresh data");
+    }
   };
 
   const handleExportData = () => {
-    console.log("Exporting analytics data...");
+    toast.success("Export data functionality coming soon");
   };
 
   const handleGenerateReport = () => {
-    console.log("Generating analytics report...");
+    toast.success("Generate report functionality coming soon");
   };
+
+  const analyticsStats = analyticsData?.data
+    ? [
+        {
+          id: 1,
+          title: "Total Users",
+          value: analyticsData.data.stats.totalUsers.toLocaleString(),
+          change: `${analyticsData.data.stats.totalUsersChange > 0 ? "+" : ""}${analyticsData.data.stats.totalUsersChange}%`,
+          note: "from last week",
+          icon: DashboardIcon,
+        },
+        {
+          id: 2,
+          title: "Total Sessions",
+          value: analyticsData.data.stats.totalSessions.toLocaleString(),
+          change: `Bounce rate ${analyticsData.data.stats.totalSessionsChange > 0 ? "+" : ""}${analyticsData.data.stats.totalSessionsChange}%`,
+          note: "from last week",
+          icon: activeIcon,
+        },
+        {
+          id: 3,
+          title: "Conversion Rate",
+          value: `${analyticsData.data.stats.conversionRate}%`,
+          change: `Avg. ${analyticsData.data.stats.conversionRateChange > 0 ? "+" : ""}${analyticsData.data.stats.conversionRateChange}%`,
+          note: "from last week",
+          icon: hospitalsIcon,
+        },
+      ]
+    : [];
+
+  if (isError) {
+    toast.error("Failed to load analytics data");
+  }
 
   return (
     <DashboardLayout
@@ -36,7 +95,7 @@ export default function page() {
       backLink="/"
       organizationName="Central Medical Hospital"
     >
-      <div className="space-y-6">
+      <div className="space-y-6 w-full max-w-full overflow-x-hidden">
         <AnalyticsHeader
           onExportData={handleExportData}
           onGenerateReport={handleGenerateReport}
@@ -45,7 +104,7 @@ export default function page() {
         <DateRangePicker
           onDateRangeChange={handleDateRangeChange}
           onRefresh={handleRefresh}
-          defaultRange="Last 7 days"
+          defaultRange={dateRange || "Last 7 days"}
         />
 
         <NavigationTabs
@@ -54,17 +113,35 @@ export default function page() {
           responsive={true}
         />
 
-        <StatsGrid
-          stats={analyticsStats}
-          gridClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-        />
+        {isLoading ? (
+          <StatsGridSkeleton count={3} />
+        ) : (
+          <StatsGrid
+            stats={analyticsStats}
+            gridClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          />
+        )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <UserGrowthChart />
-          <FeatureUsageChart />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+          <div className="w-full min-w-0">
+            <UserGrowthChart
+              data={analyticsData?.data?.userGrowth || []}
+              isLoading={isLoading}
+            />
+          </div>
+          <div className="w-full min-w-0">
+            <FeatureUsageChart
+              data={analyticsData?.data?.featureUsage || []}
+              geoChartData={analyticsData?.data?.geoChartData || []}
+              isLoading={isLoading}
+            />
+          </div>
         </div>
 
-        <QuickInsights />
+        <QuickInsights
+          insights={analyticsData?.data?.insights || []}
+          isLoading={isLoading}
+        />
       </div>
     </DashboardLayout>
   );

@@ -1,23 +1,55 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { userActivityData } from '@/lib/analytics/data';
+import { UserActivityDataPoint } from '@/lib/types/analytics/analytics';
 
 interface UserActivityChartProps {
   className?: string;
+  data?: UserActivityDataPoint[];
+  isLoading?: boolean;
 }
 
-export function UserActivityChart({ className = "" }: UserActivityChartProps) {
+export function UserActivityChart({ 
+  className = "", 
+  data = [],
+  isLoading = false 
+}: UserActivityChartProps) {
+  if (isLoading) {
+    return (
+      <div className={`bg-background border border-border rounded-xl p-6 ${className}`}>
+        <div className="mb-6">
+          <div className="h-6 bg-muted rounded w-40 mb-2 animate-pulse"></div>
+          <div className="h-4 bg-muted rounded w-48 animate-pulse"></div>
+        </div>
+        <div className="h-80 bg-muted rounded animate-pulse"></div>
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className={`bg-background border border-border rounded-xl p-6 ${className}`}>
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-foreground mb-1">User Activity Trend</h3>
+          <p className="text-sm text-muted-foreground">Daily active users over time</p>
+        </div>
+        <div className="h-80 flex items-center justify-center text-muted-foreground">
+          No data available
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`bg-background border border-border rounded-xl p-6 ${className}`}>
+    <div className={`bg-background border border-border rounded-xl p-6 w-full max-w-full overflow-hidden ${className}`}>
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-1">User Activity Trend</h3>
         <p className="text-sm text-muted-foreground">Daily active users over time</p>
       </div>
 
-      <div className="h-80">
+      <div className="h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={userActivityData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
             <XAxis 
               dataKey="month" 

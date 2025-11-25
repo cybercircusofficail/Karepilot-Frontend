@@ -18,11 +18,31 @@ interface VenuePerformanceItem {
 
 interface VenuePerformanceStatisticsProps {
   className?: string;
+  data?: any;
+  isLoading?: boolean;
 }
 
 export function VenuePerformanceStatistics({
   className = "",
+  data,
+  isLoading = false,
 }: VenuePerformanceStatisticsProps) {
+  if (isLoading) {
+    return (
+      <div className={`bg-background border border-border rounded-4xl p-6 w-full max-w-full overflow-hidden ${className}`}>
+        <div className="h-6 bg-muted rounded w-48 mb-6 animate-pulse"></div>
+        <div className="grid grid-cols-2 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-background border border-border rounded-xl p-4 animate-pulse">
+              <div className="h-4 bg-muted rounded w-24 mb-2"></div>
+              <div className="h-6 bg-muted rounded w-16 mb-2"></div>
+              <div className="h-3 bg-muted rounded w-32"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   const performanceData: VenuePerformanceItem[] = [
     {
       id: 1,

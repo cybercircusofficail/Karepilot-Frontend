@@ -4,13 +4,33 @@ interface UsagePatternsProps {
   title: string;
   subtitle: string;
   className?: string;
+  data?: {
+    peakHours?: { hour: number; count: number }[];
+    dayOfWeek?: { day: string; count: number }[];
+  };
+  isLoading?: boolean;
 }
 
 export function UsagePatterns({
   title,
   subtitle,
   className = "",
+  data,
+  isLoading = false,
 }: UsagePatternsProps) {
+  if (isLoading) {
+    return (
+      <div className={`bg-background border border-border rounded-xl p-6 w-full max-w-full overflow-hidden ${className}`}>
+        <div className="mb-6">
+          <div className="h-6 bg-muted rounded w-32 mb-2 animate-pulse"></div>
+          <div className="h-4 bg-muted rounded w-48 animate-pulse"></div>
+        </div>
+        <div className="bg-muted/20 border border-border rounded-xl p-6 animate-pulse">
+          <div className="h-64 bg-muted rounded"></div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className={`bg-background border border-border rounded-xl p-6 ${className}`}

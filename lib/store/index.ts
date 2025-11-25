@@ -24,6 +24,7 @@ import { mapEditorPreferencesApi } from '../api/mapEditorPreferencesApi';
 import { assetTrackingApi } from '../api/assetTrackingApi';
 import { alertsGeofencingApi } from '../api/alertsGeofencingApi';
 import { dashboardApi } from '../api/dashboardApi';
+import { analyticsApi } from '../api/analyticsApi';
 
 export const store = configureStore({
   reducer: {
@@ -52,6 +53,7 @@ export const store = configureStore({
     [assetTrackingApi.reducerPath]: assetTrackingApi.reducer,
     [alertsGeofencingApi.reducerPath]: alertsGeofencingApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
+    [analyticsApi.reducerPath]: analyticsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -81,7 +83,8 @@ export const store = configureStore({
       mapEditorPreferencesApi.middleware,
       assetTrackingApi.middleware,
       alertsGeofencingApi.middleware,
-      dashboardApi.middleware
+      dashboardApi.middleware,
+      analyticsApi.middleware
     ),
 });
 
