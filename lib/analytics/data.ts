@@ -1,62 +1,5 @@
-import {
-  activeIcon,
-  DashboardIcon,
-  hospitalsIcon,
-  navigationRequestsIcon,
-} from "@/icons/Assets";
-import { StatItem } from "../organization/types";
 import { TabItem } from "@/lib/types/common/navigation";
-import {
-  AlertTriangleIcon,
-  ClockIcon,
-  CheckCircleIcon,
-  MapPin,
-  AlertTriangle,
-  Building,
-  User,
-  Settings,
-  Bell,
-  Tag,
-} from "@/icons/Icons";
-
-export const performanceStats = [
-  {
-    id: 1,
-    title: "System Uptime",
-    value: "94%",
-    change: "12% higher",
-    note: "from yesterday",
-    icon: "",
-    iconComponent: CheckCircleIcon,
-    showIcon: true,
-    iconColor: "#10b981",
-    iconBackgroundColor: "#dcfce7",
-  },
-  {
-    id: 2,
-    title: "Avg Response Time",
-    value: "23s",
-    change: "32% higher",
-    note: "from last week",
-    icon: "",
-    iconComponent: ClockIcon,
-    showIcon: true,
-    iconColor: "#3b82f6",
-    iconBackgroundColor: "#dbeafe",
-  },
-  {
-    id: 3,
-    title: "Error Rate",
-    value: "1%",
-    change: "Avg: 654m",
-    note: "from last week",
-    icon: "",
-    iconComponent: AlertTriangleIcon,
-    showIcon: true,
-    iconColor: "#ef4444",
-    iconBackgroundColor: "#fef2f2",
-  },
-];
+import { User, Settings, MapPin, Bell, Tag } from "@/icons/Icons";
 
 export const performanceSystemHealth = [
   {
@@ -94,68 +37,6 @@ export const performanceTrendsData = [
   { month: "Jun", current: 21, previous: 18 },
 ];
 
-export const userEngagementStats: StatItem[] = [
-  {
-    id: 1,
-    title: "Active Users",
-    value: "34,098",
-    change: "12% higher from last week",
-    note: "from last week",
-    icon: DashboardIcon,
-  },
-  {
-    id: 2,
-    title: "User Retention",
-    value: "32,320",
-    change: "32% higher from last week",
-    note: "from last week",
-    icon: activeIcon,
-  },
-  {
-    id: 3,
-    title: "Avg Session",
-    value: "2,345m",
-    change: "Avg: 654m from last week",
-    note: "from last week",
-    icon: hospitalsIcon,
-  },
-  {
-    id: 4,
-    title: "Total Sessions",
-    value: "2",
-    change: "Avg: 0m from last week",
-    note: "from last week",
-    icon: hospitalsIcon,
-  },
-];
-
-export const analyticsStats: StatItem[] = [
-  {
-    id: 1,
-    title: "Total Organizations",
-    value: "34,098",
-    change: "0 active",
-    note: "from last week",
-    icon: DashboardIcon,
-  },
-  {
-    id: 2,
-    title: "Active Organizations",
-    value: "6",
-    change: "Bonus: 0%",
-    note: "from last week",
-    icon: activeIcon,
-  },
-  {
-    id: 3,
-    title: "Hospitals",
-    value: "2",
-    change: "Avg: 0m",
-    note: "from last week",
-    icon: hospitalsIcon,
-  },
-];
-
 export const navigationTabs: TabItem[] = [
   {
     id: "overview",
@@ -179,63 +60,12 @@ export const navigationTabs: TabItem[] = [
   },
 ];
 
-export const insightCards = [
-  {
-    title: "High User Engagement",
-    description:
-      "Your users are spending more time in the app, indicating strong engagement.",
-    actionText: "Continue current strategies",
-  },
-  {
-    title: "Popular Navigation Routes",
-    description:
-      "Certain areas are seeing high traffic. Consider optimizing these paths.",
-    actionText: "Review POI placement",
-  },
-  {
-    title: "System Performance",
-    description: "Response times are optimal and error rates are low.",
-    actionText: "Maintain current infrastructure",
-  },
-  {
-    title: "Feature Adoption",
-    description: "New features are being adopted quickly by users.",
-    actionText: "Plan additional features",
-  },
-];
-
 export const dateRangeOptions = [
   "Last 7 days",
   "Last 30 days",
   "Last 90 days",
   "Last 180 days",
   "Last 365 days",
-];
-
-export const featureUsageData = [
-  { name: "Navigation Start Rate", value: 79, max: 100 },
-  { name: "Most Accessed POIs", value: 32, max: 100 },
-  { name: "Access Preferences Engagement", value: 24, max: 100 },
-  { name: "Map Views per Session", value: 2.4, max: 10 },
-];
-
-export const geoChartData = [
-  ["Country", "Usage"],
-  ["United States", 400],
-  ["United Kingdom", 300],
-  ["France", 250],
-  ["Japan", 350],
-  ["India", 380],
-  ["Australia", 200],
-  ["Brazil", 280],
-  ["Canada", 220],
-  ["Germany", 260],
-  ["China", 320],
-  ["Russia", 180],
-  ["Mexico", 150],
-  ["Italy", 190],
-  ["Spain", 170],
-  ["South Africa", 140],
 ];
 
 export const geoChartOptions = {
@@ -254,22 +84,6 @@ export const geoChartOptions = {
   },
 };
 
-export const userActivityData = [
-  { month: "Jan", newUsers: 14, returningUsers: 10 },
-  { month: "Feb", newUsers: 21, returningUsers: 7 },
-  { month: "Mar", newUsers: 20, returningUsers: 6 },
-  { month: "Apr", newUsers: 25, returningUsers: 5 },
-  { month: "May", newUsers: 19, returningUsers: 6 },
-  { month: "Jun", newUsers: 21, returningUsers: 6 },
-];
-
-export const userDemographicsData = [
-  { category: "Staff", count: 4, color: "#3b82f6" },
-  { category: "Management", count: 4, color: "#10b981" },
-  { category: "Security", count: 4, color: "#ef4444" },
-  { category: "Visitors", count: 4, color: "#6b7280" },
-];
-
 export const lines = [
   {
     dataKey: "currentWeek",
@@ -284,15 +98,6 @@ export const lines = [
   },
 ];
 
-export const userGrowthData = [
-  { month: "Jan", currentWeek: 9, previousWeek: 12 },
-  { month: "Feb", currentWeek: 15, previousWeek: 14 },
-  { month: "Mar", currentWeek: 17, previousWeek: 16 },
-  { month: "Apr", currentWeek: 19, previousWeek: 18 },
-  { month: "May", currentWeek: 21, previousWeek: 20 },
-  { month: "Jun", currentWeek: 19, previousWeek: 22 },
-];
-
 export const performanceLines = [
   {
     dataKey: "current",
@@ -304,147 +109,6 @@ export const performanceLines = [
     stroke: "#10b981",
     strokeDasharray: "5 5",
     name: "Previous Performance",
-  },
-];
-
-export const performanceStatisticsData = [
-  {
-    id: 1,
-    value: "0",
-    label: "Requests/min",
-    color: "#f97316",
-  },
-  {
-    id: 2,
-    value: "0",
-    label: "Alerts Resolved",
-    color: "#10b981",
-  },
-  {
-    id: 3,
-    value: "0h",
-    label: "Maintenance Time",
-    color: "#3b82f6",
-  },
-  {
-    id: 4,
-    value: "24/7",
-    label: "Monitoring",
-    color: "#10b981",
-  },
-];
-
-export const venuePerformanceStats = [
-  {
-    id: 1,
-    value: "1654,394",
-    label: "Navigations Requests",
-    color: "#f97316",
-  },
-  {
-    id: 2,
-    value: "342,019",
-    label: "POI Interactions",
-    color: "#10b981",
-  },
-  {
-    id: 3,
-    value: "673,384",
-    label: "Map Views",
-    color: "#3b82f6",
-  },
-  {
-    id: 4,
-    value: "20",
-    label: "Emergency Alerts",
-    color: "#ef4444",
-  },
-  {
-    id: 5,
-    value: "345",
-    label: "Assets Tracking",
-    color: "#10b981",
-  },
-];
-
-export const mostPopularDestinationsData = [
-  {
-    id: 1,
-    name: "Information Desk",
-    count: "2,340",
-    trend: "up" as const,
-    trendColor: "#10b981",
-  },
-  {
-    id: 2,
-    name: "Food Court",
-    count: "1,243",
-    trend: "neutral" as const,
-    trendColor: "#ef4444",
-  },
-  {
-    id: 3,
-    name: "Main Entrance",
-    count: "1,987",
-    trend: "up" as const,
-    trendColor: "#10b981",
-  },
-  {
-    id: 4,
-    name: "Restrooms",
-    count: "1,756",
-    trend: "neutral" as const,
-    trendColor: "#3b82f6",
-  },
-  {
-    id: 5,
-    name: "Parking",
-    count: "892",
-    trend: "down" as const,
-    trendColor: "#ef4444",
-  },
-];
-
-export const venueAnalyticsStats: StatItem[] = [
-  {
-    id: 1,
-    title: "Navigation Requests",
-    value: "1,654,394",
-    change: "12% higher",
-    note: "from last week",
-    icon: navigationRequestsIcon,
-  },
-  {
-    id: 2,
-    title: "POI Interactions",
-    value: "342,019",
-    change: "8% higher",
-    note: "from last week",
-    icon: MapPin,
-  },
-  {
-    id: 3,
-    title: "Map Views",
-    value: "673,384",
-    change: "15% higher",
-    note: "from last week",
-    icon: MapPin,
-  },
-  {
-    id: 4,
-    title: "Emergency Alerts",
-    value: "20",
-    change: "2% lower",
-    note: "from last week",
-    icon: AlertTriangle,
-  },
-  {
-    id: 5,
-    title: "Asset Tracking",
-    value: "345",
-    change: "5% higher",
-    note: "from last week",
-    icon: Building,
   },
 ];
 

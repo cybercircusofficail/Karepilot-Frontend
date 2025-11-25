@@ -1,48 +1,9 @@
-import { NotificationSetting, SecuritySetting, UserPreference } from "./types";
+import { SecuritySetting, UserPreference } from "./types";
 
 export const settingsTabs = [
   { id: "general", label: "General", href: "/settings" },
   { id: "notifications", label: "Notifications", href: "/settings/notifications" },
   { id: "security", label: "Security", href: "/settings/security" },
-];
-
-export const notificationSettings: NotificationSetting[] = [
-  {
-    id: 1,
-    title: "Email Notifications",
-    description: "Receive notification via email",
-    checked: false,
-  },
-  {
-    id: 2,
-    title: "Push Notifications",
-    description: "Browser and mobile notifications",
-    checked: false,
-  },
-  {
-    id: 3,
-    title: "SMS Alerts",
-    description: "Critical alerts via SMS",
-    checked: true,
-  },
-  {
-    id: 4,
-    title: "Security Alerts",
-    description: "Login and security notification",
-    checked: true,
-  },
-  {
-    id: 5,
-    title: "Emergency Alerts",
-    description: "Critical emergency notifications",
-    checked: true,
-  },
-  {
-    id: 6,
-    title: "Weekly Reports",
-    description: "Summary reports via email",
-    checked: true,
-  },
 ];
 
 export const securitySettings: SecuritySetting[] = [
@@ -126,10 +87,3 @@ export const userPreferences: UserPreference[] = [
     options: ["15", "30", "60", "120"],
   },
 ];
-
-export const profileData = {
-  firstName: "Ezekiel",
-  lastName: "Olayiwola",
-  email: "ezeydesign1@gmail.com",
-  profileImage: "/api/placeholder/100/100",
-};
