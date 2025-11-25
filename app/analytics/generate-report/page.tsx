@@ -43,11 +43,11 @@ export default function Page() {
   };
 
   const handleExportData = () => {
-    console.log("Export Data clicked");
+    // TODO: Implement export data functionality
   };
 
   const handleGenerateReport = () => {
-    console.log("Generate Report clicked");
+    // TODO: Implement generate report functionality
   };
 
   return (

@@ -72,10 +72,6 @@ export default function AssetTrackingPage() {
       }
     }
 
-    if (selectedBuilding !== "all") {
-      console.log("Asset Query with building filter:", query);
-    }
-
     return query;
   }, [organizationId, selectedType, selectedBuilding]);
 

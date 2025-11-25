@@ -1,7 +1,6 @@
 "use client";
 
 import { geoChartOptions } from "@/lib/analytics/data";
-import React from "react";
 import { Chart } from "react-google-charts";
 import { FeatureUsageData, GeoChartData } from "@/lib/types/analytics/analytics";
 
